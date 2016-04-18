@@ -32,14 +32,14 @@ public class RoboGenerico extends TeamRobot{
 	
 	public void run()
 	{
-//		setAdjustRadarForGunTurn(true);
-//		setAdjustGunForRobotTurn(true);
+	//	setAdjustRadarForGunTurn(true);
+	//	setAdjustGunForRobotTurn(true);
 	//	setAdjustRadarForRobotTurn(true);
 		
 		while(true) // Loop principal
 		{
 			
-			//setTurnRadarRight(45);
+	//		setTurnRadarRight(45);
 	//		setTurnGunRight(45);	//Estrategias de rotação das partes dos robos não estão implementadas ainda. Estas são para testes apenas.
 			setTurnRight(45);
 				
@@ -86,27 +86,26 @@ public class RoboGenerico extends TeamRobot{
 			
 	}
 	
-	public void onRobotDeath(RobotDeathEvent e)
+	public void onRobotDeath(RobotDeathEvent e)					//Método chamado quando algum robo morre na arena.
 	{
-		Inimigo roboMorto = new Inimigo(e.getName(),0,0,0,0);
-		if(inimigosVivos.contains(roboMorto))
+		Inimigo roboMorto = new Inimigo(e.getName(),0,0,0,0);	//Identifica o nome do robô morto.
+		if(inimigosVivos.contains(roboMorto))					
 		{
-			inimigosVivos.remove(roboMorto);	
+			inimigosVivos.remove(roboMorto);					//Se for um inimigo, atualiza a lista de robosVivos.
 		}
 		
 		if(this.target != null)
-			if(this.target.getName() == roboMorto.getName())
-				this.target = null;
+			if(this.target.getName() == roboMorto.getName())	//Se for o robô que era o alvo atual
+				this.target = null;								//Fica sem alvo para buscar outro.
 	}
 	
-	public void onHitByBullet(HitByBulletEvent e)
+	public void onHitByBullet(HitByBulletEvent e)				//O que acontece se o nosso robo levar tiros?
 	{
 		
 	}
 	
-	public void onMessageReceived(MessageEvent m)
+	public void onMessageReceived(MessageEvent m)				//Método chamado quando alguem do time passa uma mensagem
 	{
-		inimigosDetectados((ScannedRobotEvent) m.getMessage());
 				
 	}
 	
