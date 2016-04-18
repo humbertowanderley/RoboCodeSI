@@ -4,7 +4,7 @@ import java.io.*;
 
 import robocode.*;
 
-public class Inimigo implements Serializable {
+public class Robo implements Serializable {
 
 	String name;
 	double energy;
@@ -13,7 +13,7 @@ public class Inimigo implements Serializable {
 	double bearing;
 	
 	
-	public Inimigo(String name, double energy, double distance, double heading, double bearing)
+	public Robo(String name, double energy, double distance, double heading, double bearing)
 	{
 		this.name = name;
 		this.energy = energy;
@@ -66,11 +66,12 @@ public class Inimigo implements Serializable {
 		this.bearing = bearing;
 	}
 	
-	public boolean equals(Object inimigo) {
-	     if (this.name == ((Inimigo) inimigo).getName()){
+	public boolean equals(Object robo) 
+	{
+	     if (this.name == ((Robo) robo).getName())
 	          return true;
-	     }
-	     return false;
+	     else
+	    	 return false;
 	}
 
 	

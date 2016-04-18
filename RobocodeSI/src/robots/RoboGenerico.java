@@ -1,6 +1,4 @@
 package robots;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.*;
 
 import extras.*;
@@ -17,18 +15,21 @@ import robocode.*;
 public class RoboGenerico extends TeamRobot{
 	
 	int estrategiaAtual;
-	Inimigo target;
-	ArrayList inimigosVivos;
+	ModeloMundo mundo;
 
+	
+	
 	//Atributos interessantes para as regras devem ser declarados aqui.
 	public RoboGenerico()
 	{
 		super();
 		//Inicialização dos atributos declarados
+		this.mundo = new ModeloMundo();
 		this.estrategiaAtual = 0;
-		this.inimigosVivos = new ArrayList();
-		this.target = null;
+		
+	
 	}
+	
 	
 	public void run()
 	{
@@ -40,11 +41,12 @@ public class RoboGenerico extends TeamRobot{
 		{
 			
 	//		setTurnRadarRight(45);
-	//		setTurnGunRight(45);	//Estrategias de rotação das partes dos robos não estão implementadas ainda. Estas são para testes apenas.
+			setTurnGunRight(20);	//Estrategias de rotação das partes dos robos não estão implementadas ainda. Estas são para testes apenas.
 			setTurnRight(45);
 				
 			if(pertoParede()) {		//Estrategias de movimentação não estão implementadas, essa é apenas para testar as outras coisas.
-				setBack(200);
+				setTurnRight(180);
+				setAhead(100);
 			} else {
 				setAhead(20);
 				setTurnLeft(45);
@@ -66,37 +68,45 @@ public class RoboGenerico extends TeamRobot{
 			{
 				case 0:							//Caso 0: atacar inimigo mais fraco
 					inimigosDetectados(e);		//Atualiza lista de inimigos vivos
-					if(this.target == null)		
-						this.target = escolherAlvoFraco();		//Se ainda não ter nenhum alvo, escolhe o mais fraco
-					else if(e.getName() == target.getName())	//senão, se o alvo detectado é o alvo atual...	
+					if(this.mundo.getTarget() == null)		
+						this.mundo.setTarget(escolherAlvoFraco());		//Se ainda não ter nenhum alvo, escolhe o mais fraco
+					else if(e.getName() == this.mundo.getTarget().getName())	//senão, se o alvo detectado é o alvo atual...	
 					{
-						target.setBearing(e.getBearing());		//Atualiza as informações de localização e energia do alvo atual
-						target.setEnergy(e.getEnergy());
-						target.setHeading(e.getHeading());
+						this.mundo.getTarget().setBearing(e.getBearing());		//Atualiza as informações de localização e energia do alvo atual
+						this.mundo.getTarget().setEnergy(e.getEnergy());
+						this.mundo.getTarget().setHeading(e.getHeading());
 						
-						mira(this.target.getBearing());			//Mira nele
+						mira(this.mundo.getTarget().getBearing());			//Mira nele
 						
-						if(this.target.getEnergy()<12)			//E atira com a força necessária.
-							tiroFatal(target.getEnergy());
+						if(this.mundo.getTarget().getEnergy()<12)			//E atira com a força necessária.
+							tiroFatal(this.mundo.getTarget().getEnergy());
 						else		
-							fogo(this.target.getDistance());
+							fogo(this.mundo.getTarget().getDistance());
 					}				
 					break;
 			}
+			
+			atualizarMundo();
 			
 	}
 	
 	public void onRobotDeath(RobotDeathEvent e)					//Método chamado quando algum robo morre na arena.
 	{
-		Inimigo roboMorto = new Inimigo(e.getName(),0,0,0,0);	//Identifica o nome do robô morto.
-		if(inimigosVivos.contains(roboMorto))					
+		Robo roboMorto = new Robo(e.getName(),0,0,0,0);	//Identifica o nome do robô morto.
+		if(this.mundo.getInimigosVivos().contains(roboMorto))					
 		{
-			inimigosVivos.remove(roboMorto);					//Se for um inimigo, atualiza a lista de robosVivos.
+			this.mundo.getInimigosVivos().remove(roboMorto);					//Se for um inimigo, atualiza a lista de robosVivos.
+		}
+		else if(this.mundo.getAliadosVivos().contains(roboMorto))
+		{
+			this.mundo.getAliadosVivos().remove(roboMorto);
 		}
 		
-		if(this.target != null)
-			if(this.target.getName() == roboMorto.getName())	//Se for o robô que era o alvo atual
-				this.target = null;								//Fica sem alvo para buscar outro.
+		if(this.mundo.getTarget() != null)
+			if(this.mundo.getTarget().getName() == roboMorto.getName())	//Se for o robô que era o alvo atual
+				this.mundo.setTarget(null); //Fica sem alvo para buscar outro.
+		
+		atualizarMundo();
 	}
 	
 	public void onHitByBullet(HitByBulletEvent e)				//O que acontece se o nosso robo levar tiros?
@@ -109,18 +119,26 @@ public class RoboGenerico extends TeamRobot{
 				
 	}
 	
+
+	
 	
 	//Regras deverão estar implementadas em métodos a partir daqui
 	
-	public Inimigo escolherAlvoFraco()			//Esse método checa dentre os inimigos vivos, aquele que está mais fraco e retorna seus dados
+	public void atualizarMundo()
+	{
+		this.mundo.setTime(getTime());
+		this.mundo.adicionarEvolucao(this.mundo);	
+	}
+	
+	public Robo escolherAlvoFraco()			//Esse método checa dentre os inimigos vivos, aquele que está mais fraco e retorna seus dados
 	{
 		double menorVida = 1000;
-		Inimigo targetAux = null;
-		Inimigo target = null;
+		Robo targetAux = null;
+		Robo target = null;
 		
-		for(int i = 0; i < this.inimigosVivos.size(); i++)				//dentre a lista de inimigos vivos, identifica aquele com menor vida.
+		for(int i = 0; i < this.mundo.getInimigosVivos().size(); i++)				//dentre a lista de inimigos vivos, identifica aquele com menor vida.
 		{
-			targetAux = (Inimigo) this.inimigosVivos.get(i);
+			targetAux = (Robo) this.mundo.getInimigosVivos().get(i);
 			if(targetAux.getEnergy() < menorVida)
 			{
 				menorVida = targetAux.getEnergy();
@@ -133,18 +151,17 @@ public class RoboGenerico extends TeamRobot{
 	
 	public void inimigosDetectados(ScannedRobotEvent e)			//Este método atualiza a lista de inimigos vivos conhecidos pelo robo
 	{
-		Inimigo inimigo;
+		Robo inimigo;
 		int index = 0;
 		if(!isTeammate(e.getName()))
 		{
-			inimigo = new Inimigo(e.getName(),e.getEnergy(),e.getDistance(),e.getHeading(),e.getBearing());
-			index = inimigosVivos.indexOf(inimigo);
+			inimigo = new Robo(e.getName(),e.getEnergy(),e.getDistance(),e.getHeading(),e.getBearing());
+			index = this.mundo.getInimigosVivos().indexOf(inimigo);
 			
 			if(index >= 0)
-				inimigosVivos.set(index, inimigo);
+				this.mundo.getInimigosVivos().set(index, inimigo);
 			else
-				inimigosVivos.add(inimigo);
-			
+				this.mundo.getInimigosVivos().add(inimigo);
 		}
 	}
 	
