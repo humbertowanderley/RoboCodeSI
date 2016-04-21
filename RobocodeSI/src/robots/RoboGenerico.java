@@ -116,7 +116,8 @@ public class RoboGenerico extends TeamRobot{
 	
 	public void onHitByBullet(HitByBulletEvent e)				//O que acontece se o nosso robo levar tiros?
 	{
-		if(pertoParede()) {		//Estratégias de movimentação não estão implementadas, essa é apenas para testar as outras coisas.
+		//função ainda não terminada
+		if(pertoParede()) {
 			setTurnRight(180);
 			setAhead(100);
 		} else {
@@ -179,9 +180,9 @@ public class RoboGenerico extends TeamRobot{
 	{
 		if(energiaDif>0 && energiaDif<=3)
 		{
-			setMaxVelocity(8);
-			direcaoMov=-direcaoMov;
-			setAhead((e.getDistance()/4 +25)*direcaoMov);
+			setMaxVelocity(8);		//seta a velocidade máxima para esquivar
+			direcaoMov=-direcaoMov;	//mudar a direção
+			setAhead((e.getDistance()/4 +25)*direcaoMov);	//move para determinada direcão
 		}
 		
 	}
