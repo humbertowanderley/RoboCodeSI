@@ -16,6 +16,7 @@ public class RoboGenerico extends TeamRobot{
 	
 	int estrategiaAtual;
 	ModeloMundo mundo;
+	int direcaoMov;	//representa a direção que o robo vai andar 1 frente -1 pra trás
 
 	
 	
@@ -26,6 +27,7 @@ public class RoboGenerico extends TeamRobot{
 		//Inicialização dos atributos declarados
 		this.mundo = new ModeloMundo();
 		this.estrategiaAtual = 0;
+		this.direcaoMov=1;
 		
 	
 	}
@@ -42,14 +44,14 @@ public class RoboGenerico extends TeamRobot{
 			
 	//		setTurnRadarRight(45);
 			setTurnGunRight(20);	//Estrategias de rotação das partes dos robos não estão implementadas ainda. Estas são para testes apenas.
-			setTurnRight(45);
+			//setTurnRight(45);
 				
 			if(pertoParede()) {		//Estrategias de movimentação não estão implementadas, essa é apenas para testar as outras coisas.
 				setTurnRight(180);
 				setAhead(100);
 			} else {
-				setAhead(20);
-				setTurnLeft(45);
+				//setAhead(20);
+				//setTurnLeft(45);
 			}
 			
 			execute();				//executa a fila de instruções setadas.
@@ -63,7 +65,8 @@ public class RoboGenerico extends TeamRobot{
 	{
 		
 			
-			
+		setTurnRight(e.getBearing()+90-30*direcaoMov);	//colocando robo numa posição para esquivar mais fácil
+
 			switch (estrategiaAtual)			//Estrategias relacionadas ao evento de encontrar outros robos na arena poderão ser colocados nesse switch.
 			{
 				case 0:							//Caso 0: atacar inimigo mais fraco
@@ -73,10 +76,12 @@ public class RoboGenerico extends TeamRobot{
 					else if(e.getName() == this.mundo.getTarget().getName())	//senão, se o alvo detectado é o alvo atual...	
 					{
 						this.mundo.getTarget().setBearing(e.getBearing());		//Atualiza as informações de localização e energia do alvo atual
+						esquiva(this.mundo.getTarget().getEnergy()-e.getEnergy(),e);
 						this.mundo.getTarget().setEnergy(e.getEnergy());
 						this.mundo.getTarget().setHeading(e.getHeading());
 						
 						mira(this.mundo.getTarget().getBearing());			//Mira nele
+						
 						
 						if(this.mundo.getTarget().getEnergy()<12)			//E atira com a força necessária.
 							tiroFatal(this.mundo.getTarget().getEnergy());
@@ -112,6 +117,8 @@ public class RoboGenerico extends TeamRobot{
 	public void onHitByBullet(HitByBulletEvent e)				//O que acontece se o nosso robo levar tiros?
 	{
 		
+		setTurnRight((e.getHeading()+180)-this.getHeading());
+		setAhead(90);
 	}
 	
 	public void onMessageReceived(MessageEvent m)				//Método chamado quando alguem do time passa uma mensagem
@@ -165,9 +172,16 @@ public class RoboGenerico extends TeamRobot{
 		}
 	}
 	
-	public void esquiva(double enemy)
+	public void esquiva(double energiaDif,ScannedRobotEvent e)	//recebe a diferença de energia do inimigo
 	{
 		//Falta implementar um algoritimo de desvio de balas
+		if(energiaDif>0 && energiaDif<=3)
+		{
+			setMaxVelocity(8);
+			direcaoMov=-direcaoMov;
+			setAhead((e.getDistance()/4 +25)*direcaoMov);
+		}
+		setMaxVelocity(4);
 		
 	}
 	
