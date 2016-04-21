@@ -2,8 +2,6 @@ package extras;
 
 import java.io.*;
 
-import robocode.*;
-
 public class Robo implements Serializable {
 
 	String name;

@@ -17,6 +17,7 @@ public class RoboGenerico extends TeamRobot{
 	int estrategiaAtual;
 	ModeloMundo mundo;
 	int direcaoMov;	//representa a direção que o robo vai andar 1 frente -1 pra trás
+	ArrayList memoria;				//Lista de estados do mundo (como ele foi se modificando no tempo)
 
 	
 	
@@ -27,6 +28,7 @@ public class RoboGenerico extends TeamRobot{
 		//Inicialização dos atributos declarados
 		this.mundo = new ModeloMundo();
 		this.estrategiaAtual = 0;
+		this.memoria = new ArrayList();
 		this.direcaoMov=1;
 		
 	
@@ -35,15 +37,15 @@ public class RoboGenerico extends TeamRobot{
 	
 	public void run()
 	{
-	//	setAdjustRadarForGunTurn(true);
+		setAdjustRadarForGunTurn(true);
 	//	setAdjustGunForRobotTurn(true);
-	//	setAdjustRadarForRobotTurn(true);
+		setAdjustRadarForRobotTurn(true);
 		
 		while(true) // Loop principal
 		{
 			
-	//		setTurnRadarRight(45);
-			setTurnGunRight(20);	//Estratégias de rotação das partes dos robos não estão implementadas ainda. Estas são para testes apenas.
+			setTurnRadarRight(45);
+	//		setTurnGunRight(20);	//Estratégias de rotação das partes dos robos não estão implementadas ainda. Estas são para testes apenas.
 			//setTurnRight(45);
 
 			if(pertoParede()) {		//Estratégias de movimentação não estão implementadas, essa é apenas para testar as outras coisas.
@@ -138,7 +140,7 @@ public class RoboGenerico extends TeamRobot{
 	public void atualizarMundo()
 	{
 		this.mundo.setTime(getTime());
-		this.mundo.adicionarEvolucao(this.mundo);	
+		this.memoria.add(this.mundo);	
 	}
 	
 	public Robo escolherAlvoFraco()			//Esse método checa dentre os inimigos vivos, aquele que está mais fraco e retorna seus dados

@@ -7,7 +7,7 @@ public class ModeloMundo {
 	
 	ArrayList inimigosVivos;				//Lista dos inimigos vivos no mundo
 	ArrayList aliadosVivos;					//Lista dos aliados vivos no mundo
-	ArrayList evolucaoMundo;				//Lista de estados do mundo (como ele foi se modificando no tempo)
+	//ArrayList evolucaoMundo;				//Lista de estados do mundo (como ele foi se modificando no tempo)
 	Robo target;							//Alvo atual no mundo
 	long time;								//Tempo da ultima atualização do mundo
 	
@@ -15,15 +15,11 @@ public class ModeloMundo {
 	{
 		this.inimigosVivos = new ArrayList();
 		this.aliadosVivos = new ArrayList();
-		this.evolucaoMundo = new ArrayList();
+		
 		this.time = 0;	
 	}
 	
-	public void adicionarEvolucao(ModeloMundo novaRealidade)	//Adiciona uma nova realidade na lista de evolução
-	{
-		evolucaoMundo.add(novaRealidade);
-				
-	}
+	
 	
 	
 	//Geters e Seters
