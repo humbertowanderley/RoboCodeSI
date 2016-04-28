@@ -1,0 +1,6 @@
+#Robocode robot team
+#Thu Apr 28 18:37:56 GFT 2016
+team.members=robots.Boss*,robots.Minions*,robots.Minions*,robots.Minions*,robots.Minions*
+team.author.name=hawn_azbo_mbc3_rhpr
+robocode.version=1.9.2.5
+team.description=Freeze all\!
