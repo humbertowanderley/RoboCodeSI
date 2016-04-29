@@ -187,7 +187,16 @@ public class Boss extends TeamRobot
 			execute();
 		}
 	}
+
 	
+	@Override
+	public void onHitByBullet(HitByBulletEvent e)
+	{
+		setBack(100);
+		setTurnRight(45);
+		execute();
+		
+	}
 	@Override
 	public void onWin(WinEvent e)
 	{

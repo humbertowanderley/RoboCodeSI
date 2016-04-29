@@ -26,16 +26,35 @@ public class Minions extends TeamRobot implements Droid
 		
 		while(true)	
 		{
-			if(pertoParede()) {	
-				setTurnRight(180);
-				setAhead(100);
-			} else {
-				setAhead(50);
-				setTurnRight(45);
+			if(getEnergy() > 5)
+			{
+				if(pertoParede()) {	
+					setTurnRight(180);
+					setAhead(100);
+				} else {
+					setAhead(50);
+					setTurnRight(45);
+				}
+				
+				turnGunRight(20);
+				fire(1);
+				
+			}
+			else
+			{
+				if(!pertoParede())
+				{
+					ahead(100);
+					back(100);
+				}
+				else
+				{
+					back(50);
+				}
 			}
 			
-			turnGunRight(20);
-			fire(1);
+			
+			
 			
 			execute();
 		}
