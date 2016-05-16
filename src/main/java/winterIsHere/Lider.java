@@ -1,4 +1,4 @@
-package baguetteSOLO;
+package winterIsHere;
 
 import java.util.Vector;
 import java.awt.Color;
@@ -19,12 +19,13 @@ import robocode.HitRobotEvent;
 import robocode.HitWallEvent;
 import robocode.RobotDeathEvent;
 import robocode.ScannedRobotEvent;
+import robocode.TeamRobot;
 import robocode.AdvancedRobot;
 
 
-public class BaguetteSOLO extends AdvancedRobot {
+public class Lider extends TeamRobot {
 
-    public static String RULES_FILE = "baguetteSOLO/rules/robot_rules.drl";
+    public static String RULES_FILE = "winterIsHere/rules/robot_rules.drl";
     public static String CONSULT_ACTIONS = "consult_actions";
     
     // KBUILDER : knowledge builder. Takes a .drl file in INPUT and OUTPUTS a knowledge package that the kbase can handle
@@ -39,7 +40,7 @@ public class BaguetteSOLO extends AdvancedRobot {
     
     private Vector<FactHandle> currentReferencedFacts = new Vector<FactHandle>();
     		
-    public BaguetteSOLO(){
+    public Lider(){
     }
     
     public void run() {
@@ -90,13 +91,13 @@ public class BaguetteSOLO extends AdvancedRobot {
 
 
     private void createKnowledgeBase() {
-        String rulesFile = System.getProperty("robot.rules", BaguetteSOLO.RULES_FILE);
+        String rulesFile = System.getProperty("robot.rules", Lider.RULES_FILE);
 
         DEBUG.message("Creating knowledge base");
         kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
         
         DEBUG.message("Loading rules since "+rulesFile);
-        kbuilder.add(ResourceFactory.newClassPathResource(rulesFile, BaguetteSOLO.class), ResourceType.DRL);
+        kbuilder.add(ResourceFactory.newClassPathResource(rulesFile, Lider.class), ResourceType.DRL);
         if (kbuilder.hasErrors()) {
             System.err.println(kbuilder.getErrors().toString());
         }
@@ -143,7 +144,7 @@ public class BaguetteSOLO extends AdvancedRobot {
         Action action;
         Vector<Action> actionsList = new Vector<Action>();
 
-        for (QueryResultsRow result : ksession.getQueryResults(BaguetteSOLO.CONSULT_ACTIONS)) {
+        for (QueryResultsRow result : ksession.getQueryResults(Lider.CONSULT_ACTIONS)) {
             action = (Action) result.get("action");  			// get the Action object
             action.setRobot(this);                      		// link it to the current robot
             actionsList.add(action);

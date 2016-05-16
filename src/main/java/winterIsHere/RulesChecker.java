@@ -1,4 +1,4 @@
-package baguetteSOLO;
+package winterIsHere;
 
 import java.util.List;
 import java.util.Vector;
@@ -17,7 +17,7 @@ import robocode.*;
 public class RulesChecker {
 	// class from which is adapted the baguette
 
-    public static String RULES_FILE = "baguette/rules/robot_rules.drl";
+    public static String RULES_FILE = "winterTeams/rules/robot_rules.drl";
     public static String CONSULT_ACTIONS = "consult_actions";
     private KnowledgeBuilder kbuilder;
     private KnowledgeBase kbase;
@@ -74,7 +74,7 @@ public class RulesChecker {
         Action action;
         Vector<Action> actionsList = new Vector<Action>();
 
-        for (QueryResultsRow result : ksession.getQueryResults(BaguetteSOLO.CONSULT_ACTIONS)) {
+        for (QueryResultsRow result : ksession.getQueryResults(Lider.CONSULT_ACTIONS)) {
             action = (Action) result.get("action");  
             action.setRobot(null); 
             actionsList.add(action);

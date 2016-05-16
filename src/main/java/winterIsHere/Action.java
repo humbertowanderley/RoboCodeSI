@@ -1,6 +1,6 @@
-package baguette;
+package winterIsHere;
 
-import robocode.TeamRobot;
+import robocode.AdvancedRobot;
 
 public class Action {
     private int        	type;
@@ -8,7 +8,7 @@ public class Action {
     private int        	priority;
     private long 		time;
 
-    private TeamRobot robot;   // Reference to the bot who will execute the action
+    private AdvancedRobot robot;   // Reference to the bot who will execute the action
 
     public static final int AHEAD=1;
     public static final int BACK=2;
@@ -83,7 +83,7 @@ public class Action {
         }
     }
 
-    void setRobot(TeamRobot robot) {
+    void setRobot(AdvancedRobot robot) {
         this.robot = robot;
     }
 

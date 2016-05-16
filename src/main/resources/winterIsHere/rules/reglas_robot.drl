@@ -1,4 +1,4 @@
-package drools_robocode
+package winterIsHere
 
 import drools_robocode.*;
 import robocode.*;

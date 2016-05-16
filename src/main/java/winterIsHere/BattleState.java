@@ -1,4 +1,4 @@
-package baguette;
+package winterIsHere;
 
 public class BattleState {
     private double fieldWidth;

@@ -1,4 +1,4 @@
-package baguette;
+package winterIsHere;
 
 import java.util.List;
 import org.drools.runtime.StatefulKnowledgeSession;

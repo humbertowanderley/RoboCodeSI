@@ -1,6 +1,6 @@
-package baguette
+package winterIsHere
 
-import baguette.*;
+import winterIsHere.*;
 import robocode.*;
 import robocode.ScannedRobotEvent;
 
@@ -130,7 +130,6 @@ rule "WHEN 1st victim THEN create it"
 		$scanned: ScannedRobotEvent()
 		$status : Status()
 		$state: RobotState()
-		eval($state.isTeamMate($scanned.getName()) == false)
 	then
 	    Victim victim = new Victim();
 		victim.setName($scanned.getName());
@@ -162,7 +161,6 @@ rule "WHEN new turn and detected old victim THEN update victim's informations"
 		$status : Status()
 		$state : RobotState()
 		eval($victim.getName() == $scanned.getName())
-		eval($state.isTeamMate($scanned.getName()) == false)
 	then
 		$victim.setName($scanned.getName());
 		$victim.setDistance($scanned.getDistance());
@@ -192,7 +190,6 @@ rule "WHEN detected closer victim than old one THEN update to new victim"
       	$status : Status()
       	$state : RobotState()
 		eval($victim.getDistance() > $scanned.getDistance())
-		eval($state.isTeamMate($scanned.getName()) == false)
    	then
 		$victim.setName($scanned.getName());
 		$victim.setDistance($scanned.getDistance());

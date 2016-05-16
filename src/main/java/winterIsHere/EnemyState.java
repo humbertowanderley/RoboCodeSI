@@ -1,4 +1,4 @@
-package baguetteSOLO;
+package winterIsHere;
 
 import robocode.ScannedRobotEvent;
 
