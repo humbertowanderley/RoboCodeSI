@@ -53,7 +53,7 @@ public class Lider extends TeamRobot {
         // COLORS
         setBodyColor(Color.blue);
         setGunColor(Color.white);
-        setRadarColor(Color.red);
+        setRadarColor(Color.white);
         setScanColor(Color.white);
         setBulletColor(Color.red);
 
